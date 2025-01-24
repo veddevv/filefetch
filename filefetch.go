@@ -8,7 +8,7 @@ import (
 	"golang.org/x/text/language"
 )
 
-import flag "github.com/spf13/pflag"
+import flag "github.com/cornfeedhobo/pflag"
 
 var hlsize = 4
 var hlmodi = 13

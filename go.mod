@@ -3,6 +3,6 @@ module filefetch
 go 1.23.5
 
 require (
-	github.com/spf13/pflag v1.0.5 // indirect
+	github.com/cornfeedhobo/pflag v1.1.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
 )
