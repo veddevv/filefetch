@@ -1,5 +1,5 @@
 # FileFetch
-An alternative to ls written in golang. It's basically a directory reader with a simple function: **Get all file names.** But with some customizability, you can do *more* than get file names. You can also get when the file was last modified, and the file's permissions.
+An alternative to ls written in golang. It's basically a directory reader with a simple function: **Get all file names.** But with some customizability, you can do *more* than get file names.
 
 ## Extra Functions
 ```
@@ -9,4 +9,3 @@ An alternative to ls written in golang. It's basically a directory reader with a
   -l, --long               Use Long Mode.
   -p, --permissions        Enable the Perms Section on Long Mode.
 ```
-
