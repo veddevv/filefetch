@@ -31,9 +31,19 @@ func printPA(str string, pad int, ansi string) {
 }
 
 func printFiles(dirOnly, longMode, lastModifiedEnable, permsEnable bool, dateFormat string) {
-	files, _ := os.ReadDir(".")
+	files, err := os.ReadDir(".")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error reading directory: %v\n", err)
+		return
+	}
+
 	for _, file := range files {
-		fileinfo, _ := os.Stat(file.Name())
+		fileinfo, err := file.Info()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error getting file info: %v\n", err)
+			continue
+		}
+
 		if dirOnly && file.IsDir() || !dirOnly && !file.IsDir() {
 			if longMode {
 				if dirOnly {
@@ -45,11 +55,11 @@ func printFiles(dirOnly, longMode, lastModifiedEnable, permsEnable bool, dateFor
 					printPA(fileinfo.ModTime().Format(dateFormat), hlmodi, "\033[33m")
 				}
 				if permsEnable {
+					perms := fileinfo.Mode().Perm().String()
 					if dirOnly {
-						printPA(strings.Replace(fileinfo.Mode().Perm().String(), "-", "d", 1), hlperms, "\033[31m")
-					} else {
-						printPA(fileinfo.Mode().Perm().String(), hlperms, "\033[31m")
+						perms = strings.Replace(perms, "-", "d", 1)
 					}
+					printPA(perms, hlperms, "\033[31m")
 				}
 				if dirOnly {
 					printPA(file.Name(), 0, "\033[34m")
@@ -78,9 +88,19 @@ func main() {
 	dateFormat := pflag.StringP("format", "f", "02/01/2006 15:04:05.000", "Date `format` for Last Modified, if enabled.")
 	pflag.Parse()
 
-	files, _ := os.ReadDir(".")
+	files, err := os.ReadDir(".")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error reading directory: %v\n", err)
+		return
+	}
+
 	for _, file := range files {
-		fileinfo, _ := os.Stat(file.Name())
+		fileinfo, err := file.Info()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error getting file info: %v\n", err)
+			continue
+		}
+
 		if len(sep(fileinfo.Size())+"B") > hlsize {
 			hlsize = len(sep(fileinfo.Size()) + "B")
 		}
